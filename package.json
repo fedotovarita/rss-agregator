@@ -1,0 +1,24 @@
+{
+  "name": "frontend-project-lvl3",
+  "version": "1.0.0",
+  "description": "[![Actions Status](https://github.com/fedotovarita/frontend-project-lvl3/workflows/hexlet-check/badge.svg)](https://github.com/fedotovarita/frontend-project-lvl3/actions)",
+  "main": "index.js",
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fedotovarita/frontend-project-lvl3.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/fedotovarita/frontend-project-lvl3/issues"
+  },
+  "homepage": "https://github.com/fedotovarita/frontend-project-lvl3#readme",
+  "dependencies": {
+    "eslint-plugin-import": "^2.24.0"
+  },
+  "devDependencies": {
+    "eslint": "^7.32.0",
+    "eslint-config-airbnb-base": "^14.2.1"
+  }
+}
