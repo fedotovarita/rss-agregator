@@ -2,11 +2,13 @@
   "name": "frontend-project-lvl3",
   "version": "1.0.0",
   "description": "[![Actions Status](https://github.com/fedotovarita/frontend-project-lvl3/workflows/hexlet-check/badge.svg)](https://github.com/fedotovarita/frontend-project-lvl3/actions)",
-  "main": "index.js",
-  "type": "module",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/fedotovarita/frontend-project-lvl3.git"
+  },
+  "private": true,
+  "scripts": {
+    "build": "webpack"
   },
   "author": "",
   "license": "ISC",
@@ -15,10 +17,21 @@
   },
   "homepage": "https://github.com/fedotovarita/frontend-project-lvl3#readme",
   "dependencies": {
-    "eslint-plugin-import": "^2.24.0"
+    "bootstrap": "^5.1.0",
+    "eslint-plugin-import": "^2.24.0",
+    "lodash": "^4.17.21"
   },
   "devDependencies": {
+    "@popperjs/core": "^2.9.3",
+    "css-loader": "^6.2.0",
     "eslint": "^7.32.0",
-    "eslint-config-airbnb-base": "^14.2.1"
+    "eslint-config-airbnb-base": "^14.2.1",
+    "html-webpack-plugin": "^5.3.2",
+    "postcss": "^8.3.6",
+    "postcss-loader": "^6.1.1",
+    "sass": "^1.37.5",
+    "style-loader": "^3.2.1",
+    "webpack": "^5.49.0",
+    "webpack-cli": "^4.7.2"
   }
 }
