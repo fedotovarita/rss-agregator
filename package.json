@@ -6,7 +6,6 @@
     "type": "git",
     "url": "git+https://github.com/fedotovarita/frontend-project-lvl3.git"
   },
-  "private": true,
   "scripts": {
     "build": "webpack"
   },
@@ -17,6 +16,7 @@
   },
   "homepage": "https://github.com/fedotovarita/frontend-project-lvl3#readme",
   "dependencies": {
+    "@popperjs/core": "^2.9.3",
     "bootstrap": "^5.1.0",
     "eslint-plugin-import": "^2.24.0",
     "lodash": "^4.17.21"
@@ -31,4 +31,3 @@
     "webpack-cli": "^4.7.2"
   }
 }
-
