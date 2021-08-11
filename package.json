@@ -17,9 +17,12 @@
   "homepage": "https://github.com/fedotovarita/frontend-project-lvl3#readme",
   "dependencies": {
     "@popperjs/core": "^2.9.3",
+    "axios": "^0.21.1",
     "bootstrap": "^5.1.0",
     "eslint-plugin-import": "^2.24.0",
-    "lodash": "^4.17.21"
+    "lodash": "^4.17.21",
+    "on-change": "^3.0.2",
+    "yup": "^0.32.9"
   },
   "devDependencies": {
     "css-loader": "^6.2.0",
