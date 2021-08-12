@@ -7,5 +7,6 @@ const state = {
     errors: [],
   },
   feeds: [],
+  posts: [],
 };
 export default state;
