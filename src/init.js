@@ -7,8 +7,16 @@ import validate from './validate.js';
 import ru from './locales/ru';
 import initState from './watcherRss.js';
 import parser from './parser.js';
+import repeatingFunc from './timerFunc.js';
 
 export default () => {
+  const state = {
+    errors: [],
+    urls: [],
+    feeds: [],
+    posts: [],
+  };
+
   const form = document.querySelector('form');
 
   const newInstance = i18next.createInstance();
@@ -29,57 +37,51 @@ export default () => {
     },
   });
 
-  const watchedState = initState(newInstance);
+  const watchedState = initState(newInstance, state);
 
   form.addEventListener('submit', (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
     const url = formData.get('url');
 
-    validate(url, watchedState.feeds)
+    validate(url, state.urls)
       .then((data) => {
-        watchedState.form.errors = data.message;
-        if (isEmpty(watchedState.form.errors)) {
-          watchedState.form.state = 'valid';
-          watchedState.form.url = url;
-          watchedState.feeds.unshift(url);
+        watchedState.errors = data.message;
 
-          axios.get(`https://hexlet-allorigins.herokuapp.com/get?url=${encodeURIComponent(url)}`)
-            .then((response) => {
-              console.log(response.data.contents);
-              return response.data.contents;
-            })
+        if (isEmpty(watchedState.errors)) {
+          state.urls.push(url);
+
+          axios.get(`https://hexlet-allorigins.herokuapp.com/get?url=${encodeURIComponent(url)}&disableCache=true`)
+            .then((response) => response.data.contents)
             .then((dataAx) => {
               const parsedData = parser(dataAx);
               const feedObj = {};
               const body = parsedData.querySelector('channel');
               feedObj.title = body.querySelector('title').textContent;
               feedObj.description = body.querySelector('description').textContent;
+              feedObj.url = url;
               feedObj.id = _.uniqueId();
               watchedState.feeds.unshift(feedObj);
 
               const posts = body.querySelectorAll('item');
-              const postsArr = [];
+              const postsToRender = [];
               posts.forEach((post) => {
                 const postObj = {};
                 postObj.title = post.querySelector('title').textContent;
                 postObj.link = post.querySelector('link').textContent;
                 postObj.feedId = feedObj.id;
-                postsArr.push(postObj);
+                postsToRender.unshift(postObj);
               });
-              watchedState.posts.unshift(postsArr);
+              postsToRender.forEach((post) => watchedState.posts.unshift(post));
             })
             .catch(() => {
-              if (watchedState.form.errors === undefined) {
-                watchedState.form.errors = newInstance.t('errors.notRss');
-              }
-              const index = watchedState.feeds.indexOf(url);
-              watchedState.feeds.splice(index, 1);
-              watchedState.form.state = 'invalid';
+              watchedState.errors = newInstance.t('errors.notRss');
+              const index = state.urls.indexOf(url);
+              state.urls.splice(index, 1);
             });
-        } else {
-          watchedState.form.state = 'invalid';
         }
       });
   });
+
+  setTimeout(repeatingFunc, 5000, state, watchedState);
 };

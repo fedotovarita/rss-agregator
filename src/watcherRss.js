@@ -1,25 +1,17 @@
 import onChange from 'on-change';
 import isEmpty from 'lodash/isEmpty.js';
-import state from './state.js';
 
 const input = document.querySelector('input');
 
-const initView = (instance) => {
+const initView = (instance, state) => {
   const watchedState = onChange(state, (path, value) => {
-    if (path === 'form.errors') {
-      const para = document.querySelector('.feedback');
+    const para = document.querySelector('.feedback');
+    if (path === 'errors') {
       if (!isEmpty(value)) {
-        input.classList.add('is-invalid');
         para.classList.remove('text-success');
+        input.classList.add('is-invalid');
         para.classList.add('text-danger');
         para.textContent = value;
-      } else {
-        input.classList.remove('is-invalid');
-        para.textContent = instance.t('uploadRss');
-        para.classList.remove('text-danger');
-        para.classList.add('text-success');
-        input.focus();
-        input.value = '';
       }
     }
     if (path === 'posts') {
@@ -42,17 +34,15 @@ const initView = (instance) => {
 
       const ulPosts = document.createElement('ul');
       ulPosts.classList.add('list-group', 'border-0', 'rounded-0');
-      value.forEach((array) => {
-        array.forEach((obj) => {
-          const li = document.createElement('li');
-          li.classList.add('list-group-item', 'd-flex', 'justify-content-between', 'align-items-start', 'border-0', 'border-end-0');
-          const link = document.createElement('a');
-          link.classList.add('fw-bold');
-          link.setAttribute('href', obj.link);
-          link.textContent = obj.title;
-          li.appendChild(link);
-          ulPosts.appendChild(li);
-        });
+      value.forEach((obj) => {
+        const li = document.createElement('li');
+        li.classList.add('list-group-item', 'd-flex', 'justify-content-between', 'align-items-start', 'border-0', 'border-end-0');
+        const link = document.createElement('a');
+        link.classList.add('fw-bold');
+        link.setAttribute('href', obj.link);
+        link.textContent = obj.title;
+        li.appendChild(link);
+        ulPosts.appendChild(li);
       });
 
       if (cardP.querySelector('ul')) {
@@ -63,6 +53,13 @@ const initView = (instance) => {
     }
 
     if (path === 'feeds') {
+      para.textContent = instance.t('uploadRss');
+      input.classList.remove('is-invalid');
+      para.classList.remove('text-danger');
+      para.classList.add('text-success');
+      input.focus();
+      input.value = '';
+
       const feedsDiv = document.querySelector('.feeds');
       if (!feedsDiv.querySelector('.card')) {
         const cardF = document.createElement('div');
