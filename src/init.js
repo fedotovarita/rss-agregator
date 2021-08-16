@@ -37,9 +37,11 @@ export default () => {
   const watchedState = initState(newInstance, state);
 
   const form = document.querySelector('form');
+  const input = form.querySelector('input');
 
   form.addEventListener('submit', (e) => {
     e.preventDefault();
+    input.setAttribute('readonly', 'true');
     const formData = new FormData(e.target);
     const url = formData.get('url');
 
