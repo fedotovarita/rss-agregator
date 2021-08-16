@@ -5,8 +5,9 @@ const createPosts = (value, btnName, list) => {
     const li = document.createElement('li');
     li.classList.add('list-group-item', 'd-flex', 'justify-content-between', 'align-items-start', 'border-0', 'border-end-0');
     const link = document.createElement('a');
-    link.classList.add('fw-bold');
+    link.classList.add('fw-bold', 'post-link');
     link.setAttribute('href', obj.link);
+    link.setAttribute('target', '_blank');
     link.id = obj.id;
     link.textContent = obj.title;
 
@@ -151,6 +152,13 @@ const initView = (instance, state) => {
 
     if (path === 'modal') {
       renderModal(value, state, instance.t('btnFullArticle'), instance.t('btnCloseModal'));
+    }
+
+    if (path === 'link') {
+        console.log(value)
+      value.classList.add('fw-normal');
+      value.classList.add('link-secondary');
+      value.classList.remove('fw-bold');
     }
   });
   return watchedState;

@@ -71,6 +71,12 @@ export default () => {
                   watchedState.modal = evt.target.parentNode.firstChild;
                 });
               });
+              const postLinks = document.querySelectorAll('.post-link');
+              postLinks.forEach((link) => {
+                link.addEventListener('click', (ev) => {
+                  watchedState.link = ev.target;
+                });
+              });
             })
             .catch((err) => {
               console.log(err.message);
