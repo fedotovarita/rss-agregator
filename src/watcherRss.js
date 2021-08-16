@@ -155,7 +155,7 @@ const initView = (instance, state) => {
     }
 
     if (path === 'link') {
-        console.log(value)
+      console.log(value);
       value.classList.add('fw-normal');
       value.classList.add('link-secondary');
       value.classList.remove('fw-bold');
