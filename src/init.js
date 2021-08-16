@@ -16,8 +16,6 @@ export default () => {
     readPosts: [],
   };
 
-  const form = document.querySelector('form');
-
   const newInstance = i18next.createInstance();
   newInstance.init({
     lng: 'ru',
@@ -37,6 +35,8 @@ export default () => {
   });
 
   const watchedState = initState(newInstance, state);
+
+  const form = document.querySelector('form');
 
   form.addEventListener('submit', (e) => {
     e.preventDefault();
