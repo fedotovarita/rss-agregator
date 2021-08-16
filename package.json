@@ -6,6 +6,7 @@
     "type": "git",
     "url": "git+https://github.com/fedotovarita/frontend-project-lvl3.git"
   },
+  "main": "src/index.js",
   "scripts": {
     "start": "npx webpack serve",
     "build": "npx webpack"
