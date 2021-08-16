@@ -67,8 +67,11 @@ export default () => {
                 });
               });
             })
-            .catch(() => {
-              watchedState.errors = newInstance.t('errors.notRss');
+            .catch((err) => {
+              console.log(err.message);
+              watchedState.errors = err.message === 'Network Error'
+                ? newInstance.t('errors.network')
+                : newInstance.t('errors.notRss');
             });
         }
       });
