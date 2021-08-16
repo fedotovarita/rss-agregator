@@ -8,5 +8,8 @@ export default {
     uploadRss: 'RSS успешно загружен',
     feeds: 'Фиды',
     posts: 'Посты',
+    btnView: 'Просмотр',
+    btnFullArticle: 'Читать полностью',
+    btnCloseModal: 'Закрыть',
   },
 };

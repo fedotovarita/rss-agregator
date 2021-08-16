@@ -1,6 +1,4 @@
-import isEmpty from 'lodash/isEmpty.js';
 import axios from 'axios';
-import _ from 'lodash';
 import * as yup from 'yup';
 import i18next from 'i18next';
 import validate from './validate.js';
@@ -15,6 +13,7 @@ export default () => {
     urls: [],
     feeds: [],
     posts: [],
+    readPosts: [],
   };
 
   const form = document.querySelector('form');
@@ -26,15 +25,15 @@ export default () => {
     resources: {
       ru,
     },
-  });
-
-  yup.setLocale({
-    string: {
-      url: newInstance.t('errors.invalid'),
-    },
-    mixed: {
-      notOneOf: newInstance.t('errors.duplicate'),
-    },
+  }).then(() => {
+    yup.setLocale({
+      string: {
+        url: newInstance.t('errors.invalid'),
+      },
+      mixed: {
+        notOneOf: newInstance.t('errors.duplicate'),
+      },
+    });
   });
 
   const watchedState = initState(newInstance, state);
@@ -48,40 +47,31 @@ export default () => {
       .then((data) => {
         watchedState.errors = data.message;
 
-        if (isEmpty(watchedState.errors)) {
-          state.urls.push(url);
-
+        if (!data.message) {
           axios.get(`https://hexlet-allorigins.herokuapp.com/get?url=${encodeURIComponent(url)}&disableCache=true`)
             .then((response) => response.data.contents)
             .then((dataAx) => {
-              const parsedData = parser(dataAx);
-              const feedObj = {};
-              const body = parsedData.querySelector('channel');
-              feedObj.title = body.querySelector('title').textContent;
-              feedObj.description = body.querySelector('description').textContent;
-              feedObj.url = url;
-              feedObj.id = _.uniqueId();
-              watchedState.feeds.unshift(feedObj);
-
-              const posts = body.querySelectorAll('item');
-              const postsToRender = [];
-              posts.forEach((post) => {
-                const postObj = {};
-                postObj.title = post.querySelector('title').textContent;
-                postObj.link = post.querySelector('link').textContent;
-                postObj.feedId = feedObj.id;
-                postsToRender.unshift(postObj);
+              const result = parser(dataAx, url);
+              state.urls.push(url);
+              watchedState.feeds.unshift(result.feedObj);
+              if (state.urls.length === 1) {
+                watchedState.posts = result.postsToRender;
+              } else {
+                result.postsToRender.forEach((p) => state.posts.unshift(p));
+                watchedState.newPosts = result.postsToRender;
+              }
+              const modalBtn = document.querySelectorAll('[data-bs-toggle="modal"]');
+              modalBtn.forEach((btn) => {
+                btn.addEventListener('click', (evt) => {
+                  watchedState.modal = evt.target.parentNode.firstChild;
+                });
               });
-              postsToRender.forEach((post) => watchedState.posts.unshift(post));
             })
             .catch(() => {
               watchedState.errors = newInstance.t('errors.notRss');
-              const index = state.urls.indexOf(url);
-              state.urls.splice(index, 1);
             });
         }
       });
   });
-
   setTimeout(repeatingFunc, 5000, state, watchedState);
 };
