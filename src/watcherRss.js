@@ -110,12 +110,16 @@ const renderModal = (value, state, moreB, closeB) => {
 
 const initView = (instance, state) => {
   const input = document.querySelector('input');
+  const form = document.querySelector('form');
+  const addBtn = form.querySelector('button');
+
   const watchedState = onChange(state, (path, value) => {
     const para = document.querySelector('.feedback');
 
     if (path === 'errors') {
       if (value) {
         input.removeAttribute('readonly', 'true');
+        addBtn.removeAttribute('disabled');
         input.classList.add('is-invalid');
         para.classList.add('text-danger');
         para.textContent = value;
@@ -131,13 +135,16 @@ const initView = (instance, state) => {
     }
 
     if (path === 'feeds') {
-      para.textContent = instance.t('uploadRss');
-      input.removeAttribute('readonly', 'true');
-      input.classList.remove('is-invalid');
-      para.classList.remove('text-danger');
-      para.classList.add('text-success');
+      addBtn.removeAttribute('disabled');
+
       input.focus();
       input.value = '';
+      input.removeAttribute('readonly', 'true');
+      input.classList.remove('is-invalid');
+
+      para.textContent = instance.t('uploadRss');
+      para.classList.remove('text-danger');
+      para.classList.add('text-success');
 
       renderFeeds(value, instance.t('feeds'));
     }

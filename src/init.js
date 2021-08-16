@@ -38,10 +38,13 @@ export default () => {
 
   const form = document.querySelector('form');
   const input = form.querySelector('input');
+  const addBtn = form.querySelector('button');
 
   form.addEventListener('submit', (e) => {
     e.preventDefault();
     input.setAttribute('readonly', 'true');
+    addBtn.disabled = true;
+
     const formData = new FormData(e.target);
     const url = formData.get('url');
 
