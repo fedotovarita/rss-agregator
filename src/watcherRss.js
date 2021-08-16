@@ -1,7 +1,5 @@
 import onChange from 'on-change';
 
-const input = document.querySelector('input');
-
 const createPosts = (value, btnName, list) => {
   value.forEach((obj) => {
     const li = document.createElement('li');
@@ -111,12 +109,12 @@ const renderModal = (value, state, moreB, closeB) => {
 };
 
 const initView = (instance, state) => {
+  const input = document.querySelector('input');
   const watchedState = onChange(state, (path, value) => {
     const para = document.querySelector('.feedback');
 
     if (path === 'errors') {
       if (value) {
-        para.classList.remove('text-success');
         input.classList.add('is-invalid');
         para.classList.add('text-danger');
         para.textContent = value;
