@@ -5,6 +5,7 @@ export default {
       duplicate: 'RSS уже существует',
       notRss: 'Ресурс не содержит валидный RSS',
     },
+    emptyInput: 'Не должно быть пустым',
     uploadRss: 'RSS успешно загружен',
     feeds: 'Фиды',
     posts: 'Посты',
