@@ -44,10 +44,8 @@ const renderPosts = (value, instance, btnName) => {
     renderCard(postsDiv, instance);
   }
   const cardP = postsDiv.querySelector('.card');
-
   const ulPosts = document.createElement('ul');
   ulPosts.classList.add('list-group', 'border-0', 'rounded-0', 'posts-list');
-
   createPosts(value, btnName, ulPosts);
   cardP.appendChild(ulPosts);
 };
@@ -59,32 +57,25 @@ const renderNewPosts = (value, btnName) => {
 
 const renderFeeds = (value, instance) => {
   const feedsDiv = document.querySelector('.feeds');
-
   if (!feedsDiv.querySelector('.card')) {
     renderCard(feedsDiv, instance);
   }
   const cardF = feedsDiv.querySelector('.card');
-
   const ulFeeds = document.createElement('ul');
   ulFeeds.classList.add('list-group', 'border-0', 'rounded-0');
   value.forEach((array) => {
     const li = document.createElement('li');
     li.classList.add('list-group-item', 'border-0', 'border-end-0');
-
     const title = document.createElement('h3');
     title.textContent = array.title;
     title.classList.add('h6', 'm-0');
-
     const description = document.createElement('p');
     description.textContent = array.description;
     description.classList.add('m-0', 'small', 'text-black-50');
-
     li.appendChild(title);
     li.appendChild(description);
-
     ulFeeds.appendChild(li);
   });
-
   if (cardF.querySelector('ul')) {
     const ulDel = cardF.querySelector('ul');
     ulDel.remove();
@@ -93,8 +84,7 @@ const renderFeeds = (value, instance) => {
 };
 
 const renderModal = (value, state, moreB, closeB) => {
-  value.classList.add('fw-normal');
-  value.classList.add('link-secondary');
+  value.classList.add('fw-normal', 'link-secondary');
   value.classList.remove('fw-bold');
 
   const post = state.posts.find((elem) => elem.id === value.id);
@@ -109,13 +99,17 @@ const renderModal = (value, state, moreB, closeB) => {
   fullArticleBtn.setAttribute('href', post.link);
 };
 
-const initView = (instance, state) => {
-  const input = document.querySelector('input');
-  const form = document.querySelector('form');
-  const addBtn = form.querySelector('button');
-
+const watcher = (state, instance) => {
   const watchedState = onChange(state, (path, value) => {
+    const input = document.querySelector('input');
+    const form = document.querySelector('form');
+    const addBtn = form.querySelector('button');
     const para = document.querySelector('.feedback');
+
+    if (path === 'loading') {
+      input.setAttribute('readonly', 'true');
+      addBtn.disabled = true;
+    }
 
     if (path === 'errors') {
       if (value) {
@@ -155,13 +149,11 @@ const initView = (instance, state) => {
     }
 
     if (path === 'link') {
-      console.log(value);
-      value.classList.add('fw-normal');
-      value.classList.add('link-secondary');
+      value.classList.add('fw-normal', 'link-secondary');
       value.classList.remove('fw-bold');
     }
   });
+
   return watchedState;
 };
-
-export default initView;
+export default watcher;
